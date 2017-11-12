@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Schedule</title>
+</h:head>
+<h:body>
+
+    <h:form>
+        <h:selectOneMenu value="#{scheduleBean.stations}">
+            <f:selectItems value="#{scheduleBean.stations}" var="station"
+                           itemValue="#{station.id}" itemLabel="#{station.title}" />
+        </h:selectOneMenu>
+
+        <h:commandButton value="Show" action="#{scheduleBean.getNewSchedule(station.title)}">
+            <f:ajax render="arrivalTable" execute="arrivalTable"/>
+        </h:commandButton>
+    </h:form>
+
+
+<h3>Arrival</h3>
+<h:dataTable id="arrivalTable" value="#{scheduleBean.schedule.arrivalSchedule}" var="schedule">
+    <h:column>
+        <f:facet name="header">Train</f:facet>
+        #{schedule.train.number}
+    </h:column>
+
+    <h:column>
+        <f:facet name="header">Arrival time</f:facet>
+        #{schedule.arrivalTime}
+    </h:column>
+</h:dataTable>
+
+<h3>Departure</h3>
+<h:dataTable value="#{scheduleBean.schedule.departureSchedule}" var="schedule">
+    <h:column>
+        <f:facet name="header">Train</f:facet>
+        #{schedule.train.number}
+    </h:column>
+
+    <h:column>
+        <f:facet name="header">Departure time</f:facet>
+        #{schedule.departureTime}
+    </h:column>
+</h:dataTable>
+
+</h:body>
+</html>
