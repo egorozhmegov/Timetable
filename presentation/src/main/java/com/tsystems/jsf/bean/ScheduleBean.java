@@ -9,8 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.event.AjaxBehaviorEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "scheduleBean", eager = true)
@@ -27,13 +25,14 @@ public class ScheduleBean {
 
     private ScheduleWrapper schedule;
 
-    private String station;
+    private RailWayStation station;
 
-    public String getStation() {
+    public RailWayStation getStation() {
+        System.out.println(station);
         return station;
     }
 
-    public void setStation(String station) {
+    public void setStation(RailWayStation station) {
         this.station = station;
     }
 
@@ -56,8 +55,25 @@ public class ScheduleBean {
     }
 
     public void getNewSchedule(String id) {
-        RailWayStation station = new RailWayStation("Moscow");
-        station.setId(30);
-        schedule = scheduleService.getSchedule(station);
+        System.out.println(id);
+        getStation();
+//        RailWayStation station = new RailWayStation("Moscow");
+//        station.setId(30);
+//        schedule = scheduleService.getSchedule(station);
+    }
+
+
+    public String data = "1";
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void submit(){
+        System.out.println(data);
     }
 }

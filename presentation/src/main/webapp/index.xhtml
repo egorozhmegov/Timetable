@@ -8,14 +8,26 @@
 <h:body>
 
     <h:form>
-        <h:selectOneMenu value="#{scheduleBean.stations}">
+        <h:selectOneMenu value="#{scheduleBean.station}">
             <f:selectItems value="#{scheduleBean.stations}" var="station"
                            itemValue="#{station.id}" itemLabel="#{station.title}" />
         </h:selectOneMenu>
 
-        <h:commandButton value="Show" action="#{scheduleBean.getNewSchedule(station.title)}">
+        <h:commandButton value="Show" action="#{scheduleBean.getNewSchedule(station.toString)}">
             <f:ajax render="arrivalTable" execute="arrivalTable"/>
         </h:commandButton>
+    </h:form>
+
+    <h:form>
+        <h3>Combo Box</h3>
+        <h:selectOneMenu value = "#{scheduleBean.data}">
+            <f:selectItem itemValue = "1" itemLabel = "Item 1" />
+            <f:selectItem itemValue = "2" itemLabel = "Item 2" />
+            <f:selectItem itemValue = "3" itemLabel = "Item 3" />
+            <f:selectItem itemValue = "4" itemLabel = "Item 4" />
+            <f:selectItem itemValue = "5" itemLabel = "Item 5" />
+        </h:selectOneMenu>
+        <h:commandButton value = "Submit" action = "#{scheduleBean.submit}" />
     </h:form>
 
 
@@ -45,5 +57,7 @@
     </h:column>
 </h:dataTable>
 
+
+    <h:outputScript library="js" name="index.js" />
 </h:body>
 </html>
