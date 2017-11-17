@@ -55,16 +55,27 @@
         <f:facet name="header">Departure time</f:facet>
         #{schedule.departureTime}
     </h:column>
+
+    <h:column>
+        <f:facet name="header">Information</f:facet>
+        <span id="result"></span>
+    </h:column>
 </h:dataTable>
 
-    <h2>Result</h2>
-    <span id="result"></span>
-
     <h:outputScript>
-        var url = 'ws://localhost:8025/receiver/message';
+        var port = "";
+        if (window.location.host.search(".rhcloud.com") > 0) {
+            port = ":8000";
+        }
+        var url = 'ws://' + window.location.host + port + window.location.pathname + 'message';
         var ws = new WebSocket(url);
 
+        ws.onopen = function(message) {
+            document.getElementById("result").innerHTML = message.data;
+        };
+
         ws.onmessage = function(message) {
+            console.log('Received message: ' + message);
             document.getElementById("result").innerHTML = message.data;
         };
 

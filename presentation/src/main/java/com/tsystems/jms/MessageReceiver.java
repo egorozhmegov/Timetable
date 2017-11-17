@@ -17,13 +17,14 @@ public class MessageReceiver {
     private static final String SUBJECT = "RWS_QUEUE";
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+    private ConnectionFactory connectionFactory;
+    private Connection connection;
 
     @OnOpen
     public void onOpen(final Session session) throws JMSException {
         logger.info("Connected ... " + session.getId());
-
-        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(URL);
-        Connection connection = connectionFactory.createConnection();
+        connectionFactory = new ActiveMQConnectionFactory(URL);
+        connection = connectionFactory.createConnection();
         connection.start();
 
         javax.jms.Session mqsession = connection.createSession(false,
@@ -49,22 +50,21 @@ public class MessageReceiver {
             }
         };
         consumer.setMessageListener(listener);
-
         try {
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        connection.close();
     }
 
     @OnMessage
-    public void shout(String text, Session client) {
-        client.getAsyncRemote().sendText(text.toUpperCase());
+    public void shout(String text, Session session) throws JMSException {
+
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason closeReason) {
+    public void onClose(Session session, CloseReason closeReason) throws JMSException {
+        connection.close();
         logger.info(String.format("Session %s closed because of %s", session.getId(), closeReason));
     }
 
