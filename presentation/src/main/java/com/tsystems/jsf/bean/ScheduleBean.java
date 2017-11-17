@@ -28,7 +28,6 @@ public class ScheduleBean {
     private RailWayStation station;
 
     public RailWayStation getStation() {
-        System.out.println(station);
         return station;
     }
 
@@ -55,11 +54,7 @@ public class ScheduleBean {
     }
 
     public void getNewSchedule(String id) {
-        System.out.println(id);
-        getStation();
-//        RailWayStation station = new RailWayStation("Moscow");
-//        station.setId(30);
-//        schedule = scheduleService.getSchedule(station);
+
     }
 
 

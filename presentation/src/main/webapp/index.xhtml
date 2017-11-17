@@ -57,7 +57,18 @@
     </h:column>
 </h:dataTable>
 
+    <h2>Result</h2>
+    <span id="result"></span>
 
-    <h:outputScript library="js" name="index.js" />
+    <h:outputScript>
+        var url = 'ws://localhost:8025/receiver/message';
+        var ws = new WebSocket(url);
+
+        ws.onmessage = function(message) {
+            document.getElementById("result").innerHTML = message.data;
+        };
+
+    </h:outputScript>
+
 </h:body>
 </html>

@@ -1,29 +1,37 @@
-package com.tsystems.service.jms;
+package com.tsystems.jms;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
+import javax.websocket.*;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
+@ServerEndpoint(value = "/message")
 public class MessageReceiver {
 
     private static final String URL = ActiveMQConnection.DEFAULT_BROKER_URL;
-
     private static final String SUBJECT = "RWS_QUEUE";
 
-    public static void main(String[] args) throws URISyntaxException, Exception {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
+    @OnOpen
+    public void onOpen(final Session session) throws JMSException {
+        logger.info("Connected ... " + session.getId());
+
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(URL);
         Connection connection = connectionFactory.createConnection();
         connection.start();
 
-        Session session = connection.createSession(false,
-                Session.AUTO_ACKNOWLEDGE);
+        javax.jms.Session mqsession = connection.createSession(false,
+                javax.jms.Session.AUTO_ACKNOWLEDGE);
 
-        Destination destination = session.createQueue(SUBJECT);
+        Queue destination = mqsession.createQueue(SUBJECT);
 
-        MessageConsumer consumer = session.createConsumer(destination);
+        MessageConsumer consumer = mqsession.createConsumer(destination);
 
         MessageListener listener = new MessageListener() {
             @Override
@@ -31,8 +39,8 @@ public class MessageReceiver {
                 try {
                     if (message instanceof TextMessage) {
                         TextMessage textMessage = (TextMessage) message;
-                        System.out.println("Received message"
-                                + textMessage.getText() + "'");
+                        System.out.println(textMessage.getText());
+                        session.getAsyncRemote().sendText(textMessage.getText());
                     }
                 } catch (JMSException e) {
                     System.out.println("Caught:" + e);
@@ -48,6 +56,16 @@ public class MessageReceiver {
             e.printStackTrace();
         }
         connection.close();
+    }
+
+    @OnMessage
+    public void shout(String text, Session client) {
+        client.getAsyncRemote().sendText(text.toUpperCase());
+    }
+
+    @OnClose
+    public void onClose(Session session, CloseReason closeReason) {
+        logger.info(String.format("Session %s closed because of %s", session.getId(), closeReason));
     }
 
 }
