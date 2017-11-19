@@ -27,18 +27,6 @@ public class ScheduleBean {
 
     private RailWayStation station;
 
-    public RailWayStation getStation() {
-        return station;
-    }
-
-    public void setStation(RailWayStation station) {
-        this.station = station;
-    }
-
-    public void submit(String s){
-        System.out.println(s);
-    }
-
     @PostConstruct
     public void init() {
         stations = railWayStationService.getAllStations();
@@ -53,22 +41,11 @@ public class ScheduleBean {
         return schedule;
     }
 
-    public void getNewSchedule(String id) {
-
+    public RailWayStation getStation() {
+        return station;
     }
 
-
-    public String data = "1";
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public void submit(){
-        System.out.println(data);
+    public void setStation(RailWayStation station) {
+        this.station = station;
     }
 }

@@ -13,23 +13,10 @@
                            itemValue="#{station.id}" itemLabel="#{station.title}" />
         </h:selectOneMenu>
 
-        <h:commandButton value="Show" action="#{scheduleBean.getNewSchedule(station.toString)}">
+        <h:commandButton value="Show">
             <f:ajax render="arrivalTable" execute="arrivalTable"/>
         </h:commandButton>
     </h:form>
-
-    <h:form>
-        <h3>Combo Box</h3>
-        <h:selectOneMenu value = "#{scheduleBean.data}">
-            <f:selectItem itemValue = "1" itemLabel = "Item 1" />
-            <f:selectItem itemValue = "2" itemLabel = "Item 2" />
-            <f:selectItem itemValue = "3" itemLabel = "Item 3" />
-            <f:selectItem itemValue = "4" itemLabel = "Item 4" />
-            <f:selectItem itemValue = "5" itemLabel = "Item 5" />
-        </h:selectOneMenu>
-        <h:commandButton value = "Submit" action = "#{scheduleBean.submit}" />
-    </h:form>
-
 
 <h3>Arrival</h3>
 <h:dataTable id="arrivalTable" value="#{scheduleBean.schedule.arrivalSchedule}" var="schedule">
@@ -42,10 +29,15 @@
         <f:facet name="header">Arrival time</f:facet>
         #{schedule.arrivalTime}
     </h:column>
+
+    <h:column>
+        <f:facet name="header">Information</f:facet>
+        <span id="#{schedule.train.number}"></span>
+    </h:column>
 </h:dataTable>
 
 <h3>Departure</h3>
-<h:dataTable value="#{scheduleBean.schedule.departureSchedule}" var="schedule">
+<h:dataTable id="myTable" value="#{scheduleBean.schedule.departureSchedule}" var="schedule">
     <h:column>
         <f:facet name="header">Train</f:facet>
         #{schedule.train.number}
@@ -58,7 +50,7 @@
 
     <h:column>
         <f:facet name="header">Information</f:facet>
-        <span id="result"></span>
+        <span id="#{schedule.train.number}"></span>
     </h:column>
 </h:dataTable>
 
@@ -70,15 +62,10 @@
         var url = 'ws://' + window.location.host + port + window.location.pathname + 'message';
         var ws = new WebSocket(url);
 
-        ws.onopen = function(message) {
-            document.getElementById("result").innerHTML = message.data;
-        };
-
         ws.onmessage = function(message) {
-            console.log('Received message: ' + message);
-            document.getElementById("result").innerHTML = message.data;
+            var data = message.data.split(",");
+            document.getElementById(data[1]).innerHTML = data[2];
         };
-
     </h:outputScript>
 
 </h:body>

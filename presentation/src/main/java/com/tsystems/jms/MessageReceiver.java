@@ -1,5 +1,6 @@
 package com.tsystems.jms;
 
+import com.tsystems.jsf.bean.ScheduleBean;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -40,7 +41,6 @@ public class MessageReceiver {
                 try {
                     if (message instanceof TextMessage) {
                         TextMessage textMessage = (TextMessage) message;
-                        System.out.println(textMessage.getText());
                         session.getAsyncRemote().sendText(textMessage.getText());
                     }
                 } catch (JMSException e) {
