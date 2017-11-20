@@ -10,8 +10,8 @@ public interface ScheduleService {
     /**
      * Return arrival and departure schedule by station title.
      *
-     * @param station RailWayStation
+     * @param station String
      * @return ScheduleWrapper
      */
-    ScheduleWrapper getSchedule(RailWayStation station);
+    ScheduleWrapper getSchedule(String station);
 }

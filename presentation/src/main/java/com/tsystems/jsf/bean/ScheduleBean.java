@@ -25,12 +25,12 @@ public class ScheduleBean {
 
     private ScheduleWrapper schedule;
 
-    private RailWayStation station;
+    private String station;
 
     @PostConstruct
     public void init() {
         stations = railWayStationService.getAllStations();
-        schedule = scheduleService.getSchedule(stations.get(0));
+        schedule = scheduleService.getSchedule(stations.get(0).getTitle());
     }
 
     public List<RailWayStation> getStations() {
@@ -41,11 +41,16 @@ public class ScheduleBean {
         return schedule;
     }
 
-    public RailWayStation getStation() {
+    public String getStation() {
         return station;
     }
 
-    public void setStation(RailWayStation station) {
+    public void setStation(String station) {
         this.station = station;
+    }
+
+    public ScheduleWrapper getNewSchedule() {
+        schedule = scheduleService.getSchedule(station);
+        return schedule;
     }
 }

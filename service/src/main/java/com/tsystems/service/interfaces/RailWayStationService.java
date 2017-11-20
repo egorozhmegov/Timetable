@@ -14,4 +14,12 @@ public interface RailWayStationService {
      * @return List<RailWayStation>
      */
     List<RailWayStation> getAllStations();
+
+    /**
+     * Get RailWayStation by title.
+     *
+     * @param title String.
+     * @return RailWayStation.
+     */
+    RailWayStation getStationByTitle(String title);
 }

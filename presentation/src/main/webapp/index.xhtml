@@ -8,51 +8,49 @@
 <h:body>
 
     <h:form>
-        <h:selectOneMenu value="#{scheduleBean.station}">
-            <f:selectItems value="#{scheduleBean.stations}" var="station"
-                           itemValue="#{station.id}" itemLabel="#{station.title}" />
-        </h:selectOneMenu>
-
-        <h:commandButton value="Show">
-            <f:ajax render="arrivalTable" execute="arrivalTable"/>
+        <h:inputText value="#{scheduleBean.station}" required="true" />
+        <h:commandButton value="submit" action="#{scheduleBean.getNewSchedule}">
+            <f:ajax execute="@form" render="arrivalTable departureTable" />
         </h:commandButton>
     </h:form>
 
-<h3>Arrival</h3>
-<h:dataTable id="arrivalTable" value="#{scheduleBean.schedule.arrivalSchedule}" var="schedule">
-    <h:column>
-        <f:facet name="header">Train</f:facet>
-        #{schedule.train.number}
-    </h:column>
+    <div id="schedule">
+        <h3>Arrival</h3>
+        <h:dataTable id="arrivalTable" value="#{scheduleBean.schedule.arrivalSchedule}" var="schedule">
+            <h:column>
+                <f:facet name="header">Train</f:facet>
+                #{schedule.train.number}
+            </h:column>
 
-    <h:column>
-        <f:facet name="header">Arrival time</f:facet>
-        #{schedule.arrivalTime}
-    </h:column>
+            <h:column>
+                <f:facet name="header">Arrival time</f:facet>
+                #{schedule.arrivalTime}
+            </h:column>
 
-    <h:column>
-        <f:facet name="header">Information</f:facet>
-        <span id="#{schedule.train.number}"></span>
-    </h:column>
-</h:dataTable>
+            <h:column>
+                <f:facet name="header">Information</f:facet>
+                <span id="#{schedule.train.number}"></span>
+            </h:column>
+        </h:dataTable>
 
-<h3>Departure</h3>
-<h:dataTable id="myTable" value="#{scheduleBean.schedule.departureSchedule}" var="schedule">
-    <h:column>
-        <f:facet name="header">Train</f:facet>
-        #{schedule.train.number}
-    </h:column>
+        <h3>Departure</h3>
+        <h:dataTable id="departureTable" value="#{scheduleBean.schedule.departureSchedule}" var="schedule">
+            <h:column>
+                <f:facet name="header">Train</f:facet>
+                #{schedule.train.number}
+            </h:column>
 
-    <h:column>
-        <f:facet name="header">Departure time</f:facet>
-        #{schedule.departureTime}
-    </h:column>
+            <h:column>
+                <f:facet name="header">Departure time</f:facet>
+                #{schedule.departureTime}
+            </h:column>
 
-    <h:column>
-        <f:facet name="header">Information</f:facet>
-        <span id="#{schedule.train.number}"></span>
-    </h:column>
-</h:dataTable>
+            <h:column>
+                <f:facet name="header">Information</f:facet>
+                <span id="#{schedule.train.number}"></span>
+            </h:column>
+        </h:dataTable>
+    </div>
 
     <h:outputScript>
         var port = "";
@@ -66,6 +64,7 @@
             var data = message.data.split(",");
             document.getElementById(data[1]).innerHTML = data[2];
         };
+
     </h:outputScript>
 
 </h:body>

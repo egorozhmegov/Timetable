@@ -23,4 +23,15 @@ public class RailWayStationServiceImpl implements RailWayStationService {
     public List<RailWayStation> getAllStations() {
         return railWayStationDao.getAllStations();
     }
+
+    /**
+     * Get RailWayStation by title.
+     *
+     * @param title String.
+     * @return RailWayStation.
+     */
+    @Override
+    public RailWayStation getStationByTitle(String title){
+        return railWayStationDao.getStationByTitle(title);
+    }
 }
