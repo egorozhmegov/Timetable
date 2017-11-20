@@ -29,7 +29,7 @@
 
             <h:column>
                 <f:facet name="header">Information</f:facet>
-                <span id="#{schedule.train.number}"></span>
+                <span class="#{schedule.train.number}"></span>
             </h:column>
         </h:dataTable>
 
@@ -47,7 +47,7 @@
 
             <h:column>
                 <f:facet name="header">Information</f:facet>
-                <span id="#{schedule.train.number}"></span>
+                <span class="#{schedule.train.number}"></span>
             </h:column>
         </h:dataTable>
     </div>
@@ -61,8 +61,12 @@
         var ws = new WebSocket(url);
 
         ws.onmessage = function(message) {
-            var data = message.data.split(",");
-            document.getElementById(data[1]).innerHTML = data[2];
+            var data = message.data.split(" ");
+            if(data[2] === 'Arrival'){
+                document.getElementsByClassName(data[1])[0].innerHTML = data[3];
+            } else {
+                document.getElementsByClassName(data[1])[1].innerHTML = data[3];
+            }
         };
 
     </h:outputScript>
