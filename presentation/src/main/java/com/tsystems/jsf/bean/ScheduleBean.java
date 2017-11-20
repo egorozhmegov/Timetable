@@ -31,6 +31,7 @@ public class ScheduleBean {
     public void init() {
         stations = railWayStationService.getAllStations();
         schedule = scheduleService.getSchedule(stations.get(0).getTitle());
+        station = stations.get(0).getTitle();
     }
 
     public List<RailWayStation> getStations() {

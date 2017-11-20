@@ -9,10 +9,12 @@
 
     <h:form>
         <h:inputText value="#{scheduleBean.station}" required="true" />
-        <h:commandButton value="submit" action="#{scheduleBean.getNewSchedule}">
-            <f:ajax execute="@form" render="arrivalTable departureTable" />
+        <h:commandButton value="Search" action="#{scheduleBean.getNewSchedule}">
+            <f:ajax execute="@form" render="arrivalTable departureTable station" />
         </h:commandButton>
     </h:form>
+
+    <h:outputText id="station" value="#{scheduleBean.station}" />
 
     <div id="schedule">
         <h3>Arrival</h3>
@@ -61,11 +63,15 @@
         var ws = new WebSocket(url);
 
         ws.onmessage = function(message) {
-            var data = message.data.split(" ");
-            if(data[2] === 'Arrival'){
-                document.getElementsByClassName(data[1])[0].innerHTML = data[3];
+            var data = message.data.split("-");
+            if(document.getElementById("station").innerHTML.toString() === data[0]){
+                if(data[2] === 'Arrival'){
+                    document.getElementsByClassName(data[1])[0].innerHTML = data[3];
+                } else {
+                    document.getElementsByClassName(data[1])[1].innerHTML = data[3];
+                }
             } else {
-                document.getElementsByClassName(data[1])[1].innerHTML = data[3];
+                console.log('Station ' + data[0] + ' not found.')
             }
         };
 
