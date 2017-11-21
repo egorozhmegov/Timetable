@@ -1,0 +1,18 @@
+table.schedule {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.schedule th,
+table.schedule td {
+    padding: 5px;
+    text-align: left;
+    font-family: sans-serif;
+}
+
+.schedule-jum{
+    margin-top: 50px;
+    height: 550px;
+    background-color: darkslategray;
+    color: white;
+}
