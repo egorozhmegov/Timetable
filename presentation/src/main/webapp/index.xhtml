@@ -71,7 +71,7 @@
 
                                     <h:column>
                                         <f:facet name="header">Information</f:facet>
-                                        <span class="#{schedule.train.number}"></span>
+                                        <span id="#{schedule.train.number}"></span>
                                     </h:column>
                                 </h:dataTable>
                             </b:column>
@@ -99,7 +99,8 @@
                 if(data[2] === 'Arrival'){
                     document.getElementsByClassName(data[1])[0].innerHTML = data[3];
                 } else {
-                    document.getElementsByClassName(data[1])[1].innerHTML = data[3];
+                    console.log(document.getElementById(data[1]));
+                    document.getElementById(data[1]).innerHTML = data[3];
                 }
             } else {
                 console.log('Station ' + data[0] + ' not found.')
